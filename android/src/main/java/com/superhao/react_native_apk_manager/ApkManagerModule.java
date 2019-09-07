@@ -110,7 +110,7 @@ public class ApkManagerModule extends ReactContextBaseJavaModule implements Life
         apkFile = filePath;
         File apkFile = new File(filePath);
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             boolean b = getReactApplicationContext().getPackageManager().canRequestPackageInstalls();
 
@@ -118,7 +118,7 @@ public class ApkManagerModule extends ReactContextBaseJavaModule implements Life
                 //没有权限
                 startInstallPermissionSettingActivity();
             } else {
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 Uri contentUri = FileProvider.getUriForFile(
                         getCurrentActivity()
                         , this.getReactApplicationContext().getPackageName() + ".provider"
@@ -146,7 +146,6 @@ public class ApkManagerModule extends ReactContextBaseJavaModule implements Life
 
     @ReactMethod
     public void isExpChannel(String packageName, String metaDataName, String channel, final Promise promise) {
-
         PackageManager manager = getReactApplicationContext().getPackageManager();
         boolean installed = false;
         try {
